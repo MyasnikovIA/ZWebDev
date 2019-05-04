@@ -4,7 +4,7 @@ Class %ZWebDev.Lib.demo.demo Extends %CSP.Page
 ClassMethod OnPage() As %Status
 {
 	&html<
-		<script type="text/javascript" src="%25ZWebDev.Lib.js.cls"></script>
+	    <script type="text/javascript" src="%25ZWebDev.Lib.js.cls"></script>
 	    <script src='%25ZWebDev.Lib.jquery.v320.min.js.cls'  language='JavaScript'></script>  
 	 
 	    <label for="CommandText" class="label label-default" >ObjectScrit:</label>
@@ -13,28 +13,28 @@ ClassMethod OnPage() As %Status
         
 	    
               <script language='javascript'> 
-               isOkFun=function(txt){
+                 isOkFun=function(txt){
 	              $('#ConsoleTerminal').append(txt);
-                  $("#CommandText").removeAttr("disabled");
-                  $("#TextMac").removeAttr("disabled");
+                      $("#CommandText").removeAttr("disabled");
+                      $("#TextMac").removeAttr("disabled");
 	           } 
-               ProgrressBarFun=function(txt){ 
-                  $('#ConsoleTerminal').append(txt);
+                   ProgrressBarFun=function(txt){ 
+                      $('#ConsoleTerminal').append(txt);
 	           } 
 	           ExecTextCmd=function(cmd){
 	              $('#ConsoleTerminal').text('');
 	              #server(..Terminal(cmd,'#($zu(5))#',isOkFun,ProgrressBarFun))#; 
-               } 
+                  } 
                
                
-               $('#CommandText').keypress(function(event){
-                   var keycode = (event.keyCode ? event.keyCode : event.which);
-                   if(keycode == '13'){
-	                  $("#CommandText").attr('disabled', true);
-                      ExecTextCmd($("#CommandText").val());
-                   }
-                   event.stopPropagation();
-               });
+                  $('#CommandText').keypress(function(event){
+                      var keycode = (event.keyCode ? event.keyCode : event.which);
+                      if(keycode == '13'){
+	                   $("#CommandText").attr('disabled', true);
+                           ExecTextCmd($("#CommandText").val());
+                      }
+                      event.stopPropagation();
+                  });
                
               </script>  
 	
