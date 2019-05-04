@@ -10,4 +10,5 @@
 
 <br>
 <br>Для вызова класметодов из Вэб страницы используется библиотека: %ZWebDev.Lib.js
- <script type="text/javascript" src="%25ZWebDev.Lib.js.cls"></script> 
+
+<pre> <script type="text/javascript" src='HTML.CacheLib.cls'></script></pre>
