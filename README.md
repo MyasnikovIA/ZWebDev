@@ -1,7 +1,7 @@
 # ZWebDev
 Редактор СУБД Intersystems
 Проект находится в разработке, и написан преимущественно с использованием технологии CSP
-<br>Загрузить проект:  do $system.OBJ.ImportDir("...../ZWebDev",,"ck",,1)
+<br>Загрузить проект:do $System.OBJ.ImportDir("...../ZWebDev","*.xml;*.cls;*.mac;*.int;*.inc;*.dfi","cuk",,1)
 <br>            
 
 <br>Терминала : http://localhost:57772/csp/sys/%25ZWebDev.Tools.Terminal.cls
