@@ -10,39 +10,6 @@
 
 <br>
 <br>Для вызова класметодов из Вэб страницы используется библиотека: %ZWebDev.Lib.js
+Применение этой библиотеки хорошо показано в классе <a href='https://raw.githubusercontent.com/MyasnikovIA/ZWebDev/master/Tools/Terminal.cls'>%ZWebDev.Tools.Terminal.cls</a>
 
 <pre> <script type="text/javascript" src='HTML.CacheLib.cls'></script></pre>
-<pre>
-     <script language='javascript'> 
-               isOkFun=function(txt){
-	              $('#ConsoleTerminal').append(txt);
-                  $("#CommandText").removeAttr("disabled");
-                  $("#TextMac").removeAttr("disabled");
-	           } 
-               ProgrressBarFun=function(txt){ 
-                  $('#ConsoleTerminal').append(txt);
-	           } 
-	           ExecTextCmd=function(cmd){
-	              $('#ConsoleTerminal').text('');
-	              #server(..Terminal(cmd,'#(override.namespace)#',isOkFun,ProgrressBarFun))#; 
-               } 
-      </script> 
-
-
-
-ClassMethod Terminal(cmd = "", NameSpace = {$zu(5)}) As %String
-{
-   s OldNameSpace=$zu(5)
-    
-	d $zu(5,NameSpace)
-	s cmdTmp=$replace(cmd,$c(10)," ")
-	s cmdTmp=$tr(cmdTmp,$c(13)," ")
-	s $ztrap="ErrorCmd"
-	x cmdTmp
-	d $zu(5,OldNameSpace)
-	q $c(10)
-ErrorCmd
-    q $c(10)_"Error:"_$ZE_$c(10)_"CMD: "_cmd_$c(10)
-}
-	  
-</pre>
