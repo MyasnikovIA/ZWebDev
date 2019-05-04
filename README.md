@@ -10,6 +10,6 @@
 
 <br>
 <br>Для вызова класметодов из Вэб страницы используется библиотека: %ZWebDev.Lib.js
-Применение этой библиотеки хорошо показано в классе <a href='https://raw.githubusercontent.com/MyasnikovIA/ZWebDev/master/Tools/Terminal.cls'>%ZWebDev.Tools.Terminal.cls</a>
+Применение этой библиотеки хорошо показано в классе <a href='https://raw.githubusercontent.com/MyasnikovIA/ZWebDev/master/Lib/demo/demo.cls'>%ZWebDev.Lib.demo.demo.cls</a>
 
 <pre> <script type="text/javascript" src='HTML.CacheLib.cls'></script></pre>
