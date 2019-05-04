@@ -3,21 +3,6 @@ Class %ZWebDev.Lib.demo.demo Extends %CSP.Page
 
 ClassMethod OnPage() As %Status
 {
-	
-	
-	 if $d(%request.Data("json",1)) {
-	    d ##class(%ZEN.Auxiliary.jsonProvider).%ConvertJSONToObject(%request.Get("json",""),,.override,1)
-	    if $d(override.%data("namespace")){
-           d $zu(5,override.%data("namespace"))
-	    }
-	    
-     }
-	if '$d(override){
-	   s override=##class(%ZEN.proxyObject).%New()
-	   s override.namespace=$ZU(5)
-	}
-	
-	
 	&html<
 		<script type="text/javascript" src="%25ZWebDev.Lib.js.cls"></script>
 	    <script src='%25ZWebDev.Lib.jquery.v320.min.js.cls'  language='JavaScript'></script>  
@@ -38,7 +23,7 @@ ClassMethod OnPage() As %Status
 	           } 
 	           ExecTextCmd=function(cmd){
 	              $('#ConsoleTerminal').text('');
-	              #server(..Terminal(cmd,'#(override.namespace)#',isOkFun,ProgrressBarFun))#; 
+	              #server(..Terminal(cmd,'#($zu(5))#',isOkFun,ProgrressBarFun))#; 
                } 
                
                
