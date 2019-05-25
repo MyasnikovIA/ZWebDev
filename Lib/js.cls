@@ -9,9 +9,6 @@ Parameter CodePage = "UTF-8";
 
 Parameter GlobalMessage = "^mtempZFastReport.js";
 
-/// База данных для буферизации консоли
-Parameter BufferBD = "USER";
-
 Parameter intervalQueryStatus = 1500;
 
 ClassMethod OnPreHTTP() As %Library.Boolean
@@ -23,7 +20,6 @@ ClassMethod OnPreHTTP() As %Library.Boolean
       s isUnicode=$SYSTEM.Version.IsUnicode()
       s %response.CharSet="UTF-8"  
 	  ; s %response.CharSet="CP1251"  
-
      /*
      if $l(%request.GetCgiEnv("Cache port",""))=0{ // Запуск из %ZWeb.Server
         
@@ -65,16 +61,16 @@ ClassMethod OnPage() As %Status
 	
 	if %request.Get("GetBufferJob","")'=""{	
 	  s LastJobId=%request.Get("GetBufferJob","")
-	  if $d(^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole(LastJobId,"BUFF")){
+	  if $d(^mtempBufferZWebDevLibjsDrawConsole(LastJobId,"BUFF")){
 	     s ind=""
 	     for {
-	 	    s ind=$o(^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole(LastJobId,"BUFF",ind)) 
+	 	    s ind=$o(^mtempBufferZWebDevLibjsDrawConsole(LastJobId,"BUFF",ind)) 
  		    q:ind=""
-	        s line=^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole(LastJobId,"BUFF",ind)
+	        s line=^mtempBufferZWebDevLibjsDrawConsole(LastJobId,"BUFF",ind)
 	        ; s line=$zcvt(line,"I","UTF8")
 	        ; s line=$zcvt(line,"o","CP1251")
 	        w line
-	        k ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole(LastJobId,"BUFF",ind) 
+	        k ^mtempBufferZWebDevLibjsDrawConsole(LastJobId,"BUFF",ind) 
          } 
 	  }
       q 1
@@ -82,13 +78,13 @@ ClassMethod OnPage() As %Status
 	
 	if %request.Get("GetResultJob","")'=""{	
 	  s LastJobId=%request.Get("GetResultJob","")
-	  if $d(^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole(LastJobId,"RESULT")){
- 		  s line=^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole(LastJobId,"RESULT")
+	  if $d(^mtempBufferZWebDevLibjsDrawConsole(LastJobId,"RESULT")){
+ 		  s line=^mtempBufferZWebDevLibjsDrawConsole(LastJobId,"RESULT")
 		  ; s line=$zcvt(line,"I","UTF8")
 		  ; s line=$zcvt(line,"o","CP1251")
 		  w line
-		  k ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole(LastJobId,"RESULT")
-	      k ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole(LastJobId)
+		  k ^mtempBufferZWebDevLibjsDrawConsole(LastJobId,"RESULT")
+	      k ^mtempBufferZWebDevLibjsDrawConsole(LastJobId)
 	  }
       q 1
 	}
@@ -185,7 +181,6 @@ ClassMethod OnPage() As %Status
          continue:MethodName="init"
          
          if $d(^oddDEF(ParentClassName1,"m",MethodName,70)) {
-
              if $d(^oddDEF(ParentClassName1,"m",MethodName,4)){
 	           w !,"/*",!
 	           w ^oddDEF(ParentClassName1,"m",MethodName,4)
@@ -303,9 +298,7 @@ ClientMethod SendServer(MethodName) [ Language = javascript ]
       }
       return requestSendServer.responseText;
    }
-
       if (FunProgress==null){ FunProgress=function(){} };
-
       var requestSendServer = new XMLHttpRequest();
       requestSendServer.open('POST', '/*(   w $zcvt("%ZWebDev.Lib.js","O","URL")_".cls/?RunJob=1"  )*/', false);
       requestSendServer.send(JSON.stringify(arr));  
@@ -370,13 +363,13 @@ ClassMethod ExecRunJobMethod(gl = "")
      d ..DrawBegin($job)	 
 	 if '$d(^oddDEF(%class,"m",%method,70)) {
 	    if $System.CLS.IsMthd(%class,%method)=1,'$d(^oddDEF(%class,"m",%method)){
-		   s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"RESULT")= $classmethod(%class, %method, args...)
+		   s ^mtempBufferZWebDevLibjsDrawConsole($job,"RESULT")= $classmethod(%class, %method, args...)
 		   q
 	    }
 	    if '$d(^oddDEF(%class,"m",%method,42)) {
 	       do $classmethod(%class, %method, args...)
         } Else {
-           s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"RESULT")= $classmethod(%class, %method, args...)
+           s ^mtempBufferZWebDevLibjsDrawConsole($job,"RESULT")= $classmethod(%class, %method, args...)
         }
      }else{
         if $d(^oddDEF(%class,"m",%method,30)){
@@ -406,7 +399,7 @@ ClassMethod ExecRunMethod(override As %Library.ListOfDataTypes)
    ;  d ..DrawBegin()
    ;  zw args
    ;  d ..DrawEnd()     
-   ;  m ^%deb("BUFF")=^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF")
+   ;  m ^%deb("BUFF")=^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF")
      
      s len="",IsWrite=0
      if '$d(^oddDEF(%class,"m",%method,70)) {
@@ -627,16 +620,16 @@ ClassMethod IncludeJsFun()
 
 ClassMethod redirects() [ Internal, ProcedureBlock = 0 ]
 {
-wstr(s)  s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF")=$get(^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF"),0)  s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF",$i( ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF") ))=s          q
-wchr(c)  s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF")=$get(^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF"),0)  s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF",$i( ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF") ))=$c(c)      q
-wnl      s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF")=$get(^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF"),0)  s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF",$i( ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF") ))=$$$NL      q
-wff      s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF")=$get(^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF"),0)  s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF",$i( ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF") ))=$c(12)     q
-wtab(s)  s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF")=$get(^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF"),0)  s ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF",$i( ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF") ))=s          q
+wstr(s)  s ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF")=$get(^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF"),0)  s ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF",$i( ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF") ))=s          q
+wchr(c)  s ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF")=$get(^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF"),0)  s ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF",$i( ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF") ))=$c(c)      q
+wnl      s ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF")=$get(^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF"),0)  s ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF",$i( ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF") ))=$$$NL      q
+wff      s ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF")=$get(^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF"),0)  s ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF",$i( ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF") ))=$c(12)     q
+wtab(s)  s ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF")=$get(^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF"),0)  s ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF",$i( ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF") ))=s          q
 }
 
 ClassMethod DrawBegin(JobId = {$job}) [ ProcedureBlock = 1 ]
 {
-	k ^["%SYS"]mtmpBufferZWebDevLibjsDrawConsole($job,"BUFF")
+	k ^mtempBufferZWebDevLibjsDrawConsole($job,"BUFF")
 	s %LastIO=$IO
     u %LastIO::("^"_$zn)
     d ##class(%Device).ReDirectIO($$$YES)
@@ -659,4 +652,3 @@ ClassMethod GetSlash() As %String
 }
 
 }
-
